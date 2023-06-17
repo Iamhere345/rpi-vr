@@ -66,7 +66,8 @@ fn main() {
 
         // there cannot be less than 3 values
         if data_split.clone().collect::<Vec<_>>().len() < 3 {
-            println!("[ERROR] Invalid packet data (less than 3 values received)")
+            println!("[ERROR] Invalid packet data (less than 3 values received)");
+            continue;
         }
 
         for (i, _axis) in data_split.enumerate() {
