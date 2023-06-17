@@ -1,26 +1,27 @@
+#![allow(dead_code)]
+#![allow(unused_variables)]
+
 use std::net::UdpSocket;
 
-// TODO
-/*
 
+/*
+TODO
 conf.toml file for story stuff like the raspberry pi's ip addresss and port
 
-*/
-
-
-/*
 
 Packet Architecture
-TODO
 
+values are encoded are strings (i.e) pitch is sent as "86.4"
+"Pitch_Roll_Yaw"
+e.g
+"86.4_2.3_22.9"
+
+these values need to be parsed properly to be read as f32s
 
 */
 
 const RPI_IP: &str = "127.0.0.1";
 const RPI_PORT: &str = "8080";
-
-const PACKET_LEN: usize = 4;
-
 struct Vec2<T> {
     x: T,
     y: T
