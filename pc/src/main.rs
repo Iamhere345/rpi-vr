@@ -3,7 +3,6 @@
 
 use std::net::UdpSocket;
 
-
 /*
 TODO
 conf.toml file for story stuff like the raspberry pi's ip addresss and port
