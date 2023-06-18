@@ -1,0 +1,49 @@
+This project is divided into multiple independent or semi-independent systems, which control different aspects of the project (video, networking, etc)
+These systems are:
+
+Raspberry Pi Gyro [DONE]
+    - sends SenseHAT gyroscope data over UDP to the master computer
+
+Gyro Data Recv [DONE]
+    - receives SenseHAT gyroscope data over UDP and decodes it into pitch roll and yaw variables
+
+Mouse Movement [TODO]
+    - first person games can be played in vr
+    - transform pitch and yaw angles into 2d mouse offsets
+    - use enigo crate to move the mouse
+
+Record Screen [TODO]
+    - record the screen of the master computer to send to the VR display
+
+Video Stream webpage [TODO]
+    - package the video stream into a webpage that can be opened on a web browser
+
+Send Video Stream Webpage [TODO]
+    - send the webpage over UDP to the phone acting as a vr display
+    - the phone has a web browser listening to the port that the video stream will be sent to
+
+Misc Notes
+
+mouse translation maths notes:
+
+Z = yaw
+Y = roll (not used)
+X = pitch
+
+xOrien = last value
+
+yaw, roll, pitch = map(float,data.split())
+
+pitch *= -1
+
+delta_pitch = pitch - last_pitch
+delta_yaw = yaw - last_yaw
+
+last_pitch = pitch
+last_yaw = yaw
+
+change_x = delta_pitch * pi * screenl / 180
+change_y = delta_yas * pi * screenw / 180
+        
+mouse_x, mouse_y = mouse.position()
+mouse.moveTo(mouse_x + change_x, mouse_y + change_y, duration = 0.1)
