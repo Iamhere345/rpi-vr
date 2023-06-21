@@ -30,9 +30,9 @@ Z = yaw
 Y = roll (not used)
 X = pitch
 
-xOrien = last value
+last_etc = last value
 
-yaw, roll, pitch = map(float,data.split())
+yaw, roll, pitch = ...
 
 pitch *= -1
 
@@ -43,7 +43,7 @@ last_pitch = pitch
 last_yaw = yaw
 
 change_x = delta_pitch * pi * screenl / 180
-change_y = delta_yas * pi * screenw / 180
-        
+change_y = delta_yaw * pi * screenw / 180
+
 mouse_x, mouse_y = mouse.position()
 mouse.moveTo(mouse_x + change_x, mouse_y + change_y, duration = 0.1)

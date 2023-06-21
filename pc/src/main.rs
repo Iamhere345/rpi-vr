@@ -2,6 +2,11 @@
 #![allow(unused_variables)]
 
 use std::net::UdpSocket;
+use enigo::*;
+
+use mouse::*;
+
+pub mod mouse;
 
 /*
 TODO
@@ -21,24 +26,15 @@ these values need to be parsed properly to be read as f32s
 
 const RPI_IP: &str = "127.0.0.1";
 const RPI_PORT: &str = "8080";
-struct Vec2<T> {
-    x: T,
-    y: T
-}
-
-fn to_mouse_movement(pitch: f32, roll: f32, yaw: f32) -> (f32, f32) {
-
-    // TODO
-    (0.0, 0.0)
-
-}
-
-// TODO
-fn move_mouse(move_by: (f32, f32)) {
-
-}
 
 fn main() {
+
+    let mut enigo = Enigo::new();
+    let (screen_width, screen_height) = enigo.main_display_size();
+
+    let (mut last_pitch, mut last_yaw): (f32, f32) = (0.0, 0.0);
+
+    println!("width: {} height: {}", screen_width, screen_height);
 
     let socket = UdpSocket::bind(format!("{}:{}", RPI_IP, RPI_PORT)).expect("Unable to bind socket to listening port");
 
@@ -56,10 +52,10 @@ fn main() {
         // get data part of packet (pitch roll and yaw)
         let data_raw = String::from_utf8_lossy(&buf).to_string();
 
-        println!("{}", data_raw);
+        //println!("{}", data_raw);
 
         // these shouldn't need to be mut but apparently rust hates me
-        let (mut pitch, mut roll, mut yaw): (f64, f64, f64) = (0.0, 0.0, 0.0);
+        let (mut pitch, mut roll, mut yaw): (f32, f32, f32) = (0.0, 0.0, 0.0);
 
         let data_split = data_raw.splitn(3, '_');
 
@@ -86,7 +82,7 @@ fn main() {
                 };
             }
 
-            let axis_parse_result = axis.parse::<f64>();
+            let axis_parse_result = axis.parse::<f32>();
 
             let axis_float = match axis_parse_result {
                 Ok(f) => f,
@@ -108,10 +104,14 @@ fn main() {
 
         println!("pitch: {} roll: {} yaw: {}", pitch, roll, yaw);
 
-        /*
-        let (x, y) = to_mouse_movement(buf[0], buf[1], buf[2]);
-        move_mouse((x, y));
-        */
+        let mouse_change = to_mouse_movement(pitch, yaw, last_pitch, last_yaw, screen_width, screen_height);
+
+        last_pitch = pitch;
+        last_yaw = yaw;
+
+        println!("x: {} y: {}", mouse_change.x, mouse_change.y);
+
+        move_mouse_to(&mut enigo, mouse_change);
 
     }
 

@@ -1,6 +1,7 @@
 # from sense_emu import SenseHat
 import time
 import socket
+from random import randint
 
 #! i couldn't get sense_emu working on windows. I might have another go on MacOS, but for now i may have to leave the proper testing
 #! until i boot up the raspberry pi again. I've temporarily commented out SenseHAT-related code, and instead of emulator gryo data
@@ -26,9 +27,9 @@ while True:
   # yaw = o["yaw"]
 
   # test values
-  pitch = 86.4
-  roll = 2.3
-  yaw = 22.9
+  pitch = randint(0, 180)
+  roll = randint(0, 180)
+  yaw = randint(0, 180)
 
   print("pitch {0} roll {1} yaw {2}".format(pitch, roll, yaw))
 
