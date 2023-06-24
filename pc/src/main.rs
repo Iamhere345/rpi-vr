@@ -24,7 +24,7 @@ these values need to be parsed properly to be read as f32s
 
 */
 
-const RPI_IP: &str = "127.0.0.1";
+const RPI_IP: &str = "0.0.0.0";
 const RPI_PORT: &str = "8080";
 
 fn main() {

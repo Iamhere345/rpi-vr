@@ -1,35 +1,35 @@
-# from sense_emu import SenseHat
+from sense_emu import SenseHat
 import time
 import socket
 from random import randint
 
-#! i couldn't get sense_emu working on windows. I might have another go on MacOS, but for now i may have to leave the proper testing
-#! until i boot up the raspberry pi again. I've temporarily commented out SenseHAT-related code, and instead of emulator gryo data
-#! i'm using constant test values
+#! In this state the script only works when testing on a raspberry pi
+#! to test this on a local device, change the ip address to 127.0.0.1 (and do the same in main.rs),
+#! comment out all the SenseHat stuff, and uncomment the test values
 
 UPDATE_INTERVAL = 0.5
 
-UDP_IP = "127.0.0.1"
+UDP_IP = "192.168.68.118"
 UDP_PORT = 8080
 
 # SenseHAT init
-# sense = SenseHat()
-# sense.clear()
+sense = SenseHat()
+sense.clear()
 
 # UDP init
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 while True:
   
-  # o = sense.get_orientation()
-  # pitch = o["pitch"]
-  # roll = o["roll"]
-  # yaw = o["yaw"]
+  axis = sense.get_orientation()
+  pitch = axis["pitch"]
+  roll = axis["roll"]
+  yaw = axis["yaw"]
 
   # test values
-  pitch = randint(0, 180)
-  roll = randint(0, 180)
-  yaw = randint(0, 180)
+  # pitch = randint(0, 180)
+  # roll = randint(0, 180)
+  # yaw = randint(0, 180)
 
   print("pitch {0} roll {1} yaw {2}".format(pitch, roll, yaw))
 
