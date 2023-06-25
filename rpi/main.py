@@ -1,4 +1,4 @@
-from sense_emu import SenseHat
+#from sense_emu import SenseHat
 import time
 import socket
 from random import randint
@@ -9,27 +9,40 @@ from random import randint
 
 UPDATE_INTERVAL = 0.5
 
-UDP_IP = "192.168.68.118"
+#UDP_IP = "192.168.68.118"
+UDP_IP = "127.0.0.1"
 UDP_PORT = 8080
 
 # SenseHAT init
-sense = SenseHat()
-sense.clear()
+#sense = SenseHat()
+#sense.clear()
 
 # UDP init
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
+pitch, yaw, roll = 0, 0, 0
+
 while True:
   
-  axis = sense.get_orientation()
-  pitch = axis["pitch"]
-  roll = axis["roll"]
-  yaw = axis["yaw"]
+  #axis = sense.get_orientation()
+  #pitch = axis["pitch"]
+  #roll = axis["roll"]
+  #yaw = axis["yaw"]
 
   # test values
   # pitch = randint(0, 180)
   # roll = randint(0, 180)
   # yaw = randint(0, 180)
+
+  if pitch == 180:
+    pitch = -180
+  else:
+    pitch += 1
+
+  if yaw == 180:
+    yaw = -180
+  else:
+    yaw += 1
 
   print("pitch {0} roll {1} yaw {2}".format(pitch, roll, yaw))
 

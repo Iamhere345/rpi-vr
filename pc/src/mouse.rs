@@ -20,17 +20,16 @@ pub fn test(enigo: &mut Enigo) {
     enigo.mouse_move_to(0, 0);
 }
 
-pub fn to_mouse_movement(mut pitch: f32, yaw: f32, last_pitch: f32, last_yaw: f32, width: i32, height: i32) -> Vec2<f32> {
+pub fn to_mouse_movement(pitch: f32, yaw: f32, last_pitch: f32, last_yaw: f32, width: i32, height: i32) -> Vec2<f32> {
 
-    //pitch *= -1.0;
-
+    // TODO goes crazy when the sign changes
     let delta_pitch = pitch - last_pitch;
     let delta_yaw = yaw - last_yaw;
 
-    let change_x = delta_pitch * PI * width as f32 / 180.0;
-    let change_y = delta_yaw * PI * height as f32 / 180.0;
+    let change_x = delta_yaw * PI * width as f32 / 180.0;
+    let change_y = delta_pitch * PI * height as f32 / 180.0;
 
-    Vec2::new(change_x, change_y)
+    Vec2::new(change_x, -change_y)
 
 }
 
