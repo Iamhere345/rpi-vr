@@ -57,10 +57,12 @@ fn main() {
         // these shouldn't need to be mut but apparently rust hates me
         let (mut pitch, mut roll, mut yaw): (f32, f32, f32) = (0.0, 0.0, 0.0);
 
-        let data_split = data_raw.splitn(3, '_');
+        let data_split = data_raw.split('_');
+        let data_split_len = data_split.clone().collect::<Vec<_>>().len();
+        //println!("{data_split_len}");
 
         // there cannot be less than 3 values
-        if data_split.clone().collect::<Vec<_>>().len() < 3 {
+        if data_split_len < 3 {
             println!("[ERROR] Invalid packet data (less than 3 values received)");
             continue;
         }
@@ -71,7 +73,7 @@ fn main() {
 
             // last value contains \0's that make up the rest of the buffer
             // these need to be removed so the value can be parsed
-            if i == 2 {
+            if i == data_split_len - 1 {
                 let axis_trim = axis.split_once('\0');
                 axis = match axis_trim {
                     Some(a) => a.0,
@@ -88,30 +90,43 @@ fn main() {
                 Ok(f) => f,
                 Err(e) => {
                     println!("{:?}", axis.as_bytes());
+                    println!("{axis}");
+                    println!("{data_raw}");
                     println!("[ERROR] Invalid packet (unable to decode data). Error: {}", e);
                     continue 'main;
                 }
             };
 
+            if axis_float > 360.0 {
+                println!("[WARNING] parsed value greater than 360");
+                println!("{axis}");
+                println!("{data_raw}");
+            }
+
             match i {
                 0 => pitch = axis_float,
                 1 => roll = axis_float,
                 2 => yaw = axis_float,
-                _ => {/* this shouldn't happen because splitn will never return more than 3 values */}
+                _ => {
+                    println!("[WARNING] Decoded more than 2 values. Extra value: {}", axis_float);
+                }
             }
 
         }
 
         println!("pitch: {} roll: {} yaw: {}", pitch, roll, yaw);
+        //println!("last pitch: {} last yaw: {}", last_pitch, last_yaw);
 
         let mouse_change = to_mouse_movement(pitch, yaw, last_pitch, last_yaw, screen_width, screen_height);
 
         last_pitch = pitch;
         last_yaw = yaw;
 
-        println!("x: {} y: {}", mouse_change.x, mouse_change.y);
+        //println!("x: {} y: {}", mouse_change.x, mouse_change.y);
 
         move_mouse_to(&mut enigo, mouse_change);
+
+        buf.fill(0);
 
     }
 

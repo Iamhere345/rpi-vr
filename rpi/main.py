@@ -20,7 +20,7 @@ UDP_PORT = 8080
 # UDP init
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-pitch, yaw, roll = 0, 0, 0
+pitch, yaw, roll = 340, 340, 0
 
 while True:
   
@@ -34,13 +34,13 @@ while True:
   # roll = randint(0, 180)
   # yaw = randint(0, 180)
 
-  if pitch == 180:
-    pitch = -180
+  if pitch == 360:
+    pitch = 0
   else:
     pitch += 1
 
-  if yaw == 180:
-    yaw = -180
+  if yaw == 360:
+    yaw = 0
   else:
     yaw += 1
 
@@ -49,5 +49,7 @@ while True:
   # encoding floating point values as an ascii string...
   sendData = (str(pitch) + "_" + str(roll) + "_" + str(yaw)).encode('ascii')
   sock.sendto(sendData, (UDP_IP, UDP_PORT))
+
+  #print(sendData)
 
   time.sleep(UPDATE_INTERVAL)
