@@ -7,7 +7,7 @@ Raspberry Pi Gyro [DONE]
 Gyro Data Recv [DONE]
     - receives SenseHAT gyroscope data over UDP and decodes it into pitch roll and yaw variables
 
-Mouse Movement [TODO]
+Mouse Movement [DONE]
     - first person games can be played in vr
     - transform pitch and yaw angles into 2d mouse offsets
     - use enigo crate to move the mouse
@@ -19,7 +19,7 @@ Video Stream webpage [TODO]
     - package the video stream into a webpage that can be opened on a web browser
 
 Send Video Stream Webpage [TODO]
-    - send the webpage over UDP to the phone acting as a vr display
+    - send the webpage over UDP to the phone acting as a vr display 
     - the phone has a web browser listening to the port that the video stream will be sent to
 
 Misc Notes
@@ -47,3 +47,17 @@ change_y = delta_yaw * pi * screenw / 180
 
 mouse_x, mouse_y = mouse.position()
 mouse.moveTo(mouse_x + change_x, mouse_y + change_y, duration = 0.1)
+
+Video Encoding notes
+
+Alr we're doing the full-stack js approach O_o
+
+on the server we're using node.js, OpenCV and socket.io
+
+Node.js - it's obvious what this does, might also use express
+OpenCV - records the screen and encodes it as a png (and then as a byte array in base64)
+Socket.io - sends the image to the client
+
+The client is vanilla html with js (+ Socket.io)
+ - connects to the server on the port that is emitting the video frames
+ - decodes them and uses them as the src for the two image elements on the html page

@@ -114,7 +114,7 @@ fn main() {
 
         }
 
-        println!("pitch: {} roll: {} yaw: {}", pitch, roll, yaw);
+        //println!("pitch: {} roll: {} yaw: {}", pitch, roll, yaw);
         //println!("last pitch: {} last yaw: {}", last_pitch, last_yaw);
 
         let mouse_change = to_mouse_movement(pitch, yaw, last_pitch, last_yaw, screen_width, screen_height);
@@ -122,7 +122,8 @@ fn main() {
         last_pitch = pitch;
         last_yaw = yaw;
 
-        //println!("x: {} y: {}", mouse_change.x, mouse_change.y);
+        println!("x: {} y: {}", mouse_change.x, mouse_change.y);
+        //println!("{:?}", enigo.mouse_location());
 
         move_mouse_to(&mut enigo, mouse_change);
 
