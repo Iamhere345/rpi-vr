@@ -22,6 +22,9 @@ app.get('/', (req, res) => {
 
 setInterval(() => {
     const screenCap = new cv.VideoCapture(0);
+
+    console.log("E")
+
     // read image from the video stream
     const frame = screenCap.read();
 
