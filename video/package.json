@@ -9,10 +9,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@u4/opencv-build": "^0.7.8",
+    "@u4/opencv4nodejs": "^6.5.2",
     "express": "^4.17.1",
-    "socket.io": "^4.7.1",
-    "opencv4nodejs": {
-      "disableAutoBuild": "1"
-    }
+    "node-gyp": "^9.4.0",
+    "socket.io": "^4.7.1"
+  },
+  "opencv4nodejs": {
+    "autoBuildOpencvVersion": "4.6.0"
   }
 }

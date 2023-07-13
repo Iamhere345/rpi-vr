@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <img id="image">
+
+<!-- socket.io script -->
+<script scr="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+<script>
+    // connect to the socket.io instance
+    const sock = io.connect("http://localhost:3000");
+
+    sock.on('image', (data) => {
+        console.log('data', data);
+
+        // decode and display the image on the image element
+        const img1 = document.getElementById('image');
+        img1.src = `data:image/png;base64,${image}`;
+    });
+</script>
+</body>
+</html>
