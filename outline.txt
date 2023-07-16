@@ -12,17 +12,24 @@ Mouse Movement [DONE]
     - transform pitch and yaw angles into 2d mouse offsets
     - use enigo crate to move the mouse
 
-Record Screen [TODO]
+Record Screen [DONE]
     - record the screen of the master computer to send to the VR display
 
-Video Stream webpage [TODO]
+Video Stream webpage [DONE]
     - package the video stream into a webpage that can be opened on a web browser
 
-Send Video Stream Webpage [TODO]
+Send Video Stream Webpage [DONE]
     - send the webpage over UDP to the phone acting as a vr display 
     - the phone has a web browser listening to the port that the video stream will be sent to
 
 Misc Notes
+
+Video:
+
+Originally i was going to use nodejs, but i couldn't get the really janky OpenCV bindings working so i decided to use python + opencv instead
+because python has much better OpenCV support.
+
+
 
 mouse translation maths notes:
 

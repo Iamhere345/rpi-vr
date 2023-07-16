@@ -2,11 +2,8 @@ from imutils.video import VideoStream
 from flask import Response
 from flask import Flask
 from flask import render_template
-import threading
-import argparse
 import time
 import cv2
-from pathlib import Path
 
 PORT = 3000
 HOST = "0.0.0.0"
@@ -55,7 +52,3 @@ def video_feed():
         mimetype="multipart/x-mixed-replace; boundary=frame")
 
 app.run(host=HOST, port=PORT, debug=True, threaded=False, use_reloader=False)
-
-# add this somewhere
-# frame = wCap.read()
-# outputFrame = frame.copy()
