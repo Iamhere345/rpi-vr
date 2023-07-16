@@ -25,21 +25,22 @@ pub fn to_mouse_movement(pitch: f32, yaw: f32, last_pitch: f32, last_yaw: f32, w
     let mut delta_pitch = pitch - last_pitch;
     let mut delta_yaw = yaw - last_yaw;
 
-    if delta_pitch >= 320.0 {
-        delta_pitch = 1.0;
+    if (pitch < 1.0 && last_pitch > 358.0) || (pitch > 358.0 && last_pitch < 1.0) {
+        delta_pitch = 0.0;
     }
 
-    if delta_yaw >= 320.0 {
-        delta_yaw = 1.0;
+    if (yaw < 1.0 && last_yaw > 358.0) || (yaw > 358.0 && last_yaw < 1.0) {
+        delta_yaw = 0.0;
     }
 
     //println!("delta pitch: {delta_pitch} delta yaw: {delta_yaw}");
 
     let change_x = delta_yaw.round() * PI * width as f32 / 180.0;
-    let change_y = delta_pitch.round() * PI * height as f32 / 180.0;
+    let mut change_y = delta_pitch.round() * PI * height as f32 / 180.0;
 
-    if change_y >= 500.0 {
+    if change_y >= 500.0 || change_y <= -500.0 {
         println!("change_y was {change_y} with delta pitch {}", delta_pitch.round());
+        change_y = 0.0;
     }
 
     Vec2::new(change_x, -change_y)
