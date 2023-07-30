@@ -9,9 +9,6 @@ use mouse::*;
 pub mod mouse;
 
 /*
-TODO
-conf.toml file for story stuff like the raspberry pi's ip addresss and port
-
 
 Packet Architecture
 

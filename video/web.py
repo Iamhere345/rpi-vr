@@ -33,6 +33,7 @@ def generate():
             print("failed to read video stream")
             continue
 
+        # TODO this is redundant
         outputFrame = frame.copy()
 
         if outputFrame is None:
