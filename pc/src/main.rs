@@ -8,6 +8,9 @@ use mouse::*;
 
 pub mod mouse;
 
+#[cfg(feature = "direct_input_support")]
+pub mod windows_mouse;
+
 /*
 
 Packet Architecture
@@ -117,14 +120,13 @@ fn main() {
         let mouse_change = to_mouse_movement(pitch, yaw, last_pitch, last_yaw, screen_width, screen_height);
 
         if mouse_change.y != 0.0 || mouse_change.x != 0.0 {
-            println!("x: {} y: {} pitch: {} last pitch: {}", mouse_change.x, mouse_change.y, pitch, last_pitch)
+            //println!("x: {} y: {} pitch: {} last pitch: {}", mouse_change.x, mouse_change.y, pitch, last_pitch)
         }
 
         last_pitch = pitch;
         last_yaw = yaw;
 
         //println!("x: {} y: {}", mouse_change.x, mouse_change.y);
-        //println!("{:?}", enigo.mouse_location());
 
         move_mouse_to(&mut enigo, mouse_change);
 

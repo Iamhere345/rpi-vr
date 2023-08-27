@@ -1,6 +1,9 @@
 use std::f32::consts::PI;
 use enigo::*;
 
+#[cfg(feature = "direct_input_support")]
+use crate::windows_mouse::denormalised_mouse_move_to;
+
 pub struct Vec2<T> {
     pub x: T,
     pub y: T
@@ -47,12 +50,30 @@ pub fn to_mouse_movement(pitch: f32, yaw: f32, last_pitch: f32, last_yaw: f32, w
 
 }
 
+#[cfg(not(feature = "direct_input_support"))]
 pub fn move_mouse_to(enigo: &mut Enigo, pos: Vec2<f32>) {
 
     if enigo.mouse_location().1 >= 1079 {
-        //println!("{}", pos.y.floor() as i32);
+         //println!("{}", pos.y.floor() as i32);
     }
 
+    println!("x {} y {}", pos.x, pos.y);
+
     enigo.mouse_move_relative(pos.x.floor() as i32, pos.y.floor() as i32);
+    
+}
+
+#[cfg(feature = "direct_input_support")]
+pub fn move_mouse_to(enigo: &mut Enigo, pos: Vec2<f32>) {
+
+    let mouse_loc = enigo.mouse_location();
+
+    // the + 1 stops the mouse from moving by itself for some reason
+    let transformed_pos = Vec2::<i32>::new(
+        (mouse_loc.0 + 1) + pos.x.floor() as i32, 
+        (mouse_loc.1 + 1) + pos.y.floor() as i32
+    );
+
+    denormalised_mouse_move_to(transformed_pos.x, transformed_pos.y);
 
 }
