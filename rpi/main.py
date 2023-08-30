@@ -1,55 +1,42 @@
-#from sense_emu import SenseHat
+from sense_hat import SenseHat
 import time
 import socket
 from random import randint
 
-#! In this state the script only works when testing on a raspberry pi
-#! to test this on a local device, change the ip address to 127.0.0.1 (and do the same in main.rs),
-#! comment out all the SenseHat stuff, and uncomment the test values
+#! i couldn't get sense_emu working on windows. I might have another go on MacOS, but for now i may have to leave the proper testing
+#! until i boot up the raspberry pi again. I've temporarily commented out SenseHAT-related code, and instead of emulator gryo data
+#! i'm using constant test values
 
-UPDATE_INTERVAL = 0.5
+UPDATE_INTERVAL = 0.01
 
-#UDP_IP = "192.168.68.118"
-UDP_IP = "127.0.0.1"
+UDP_IP = "192.168.68.109"
 UDP_PORT = 8080
 
 # SenseHAT init
-#sense = SenseHat()
-#sense.clear()
+sense = SenseHat()
+sense.clear()
 
 # UDP init
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-pitch, yaw, roll = 340, 340, 0
-
 while True:
   
-  #axis = sense.get_orientation()
-  #pitch = axis["pitch"]
-  #roll = axis["roll"]
-  #yaw = axis["yaw"]
+  # it seems that with the way the raspberry pi is mounted
+  # pitch and roll are swapped
+  axis = sense.get_orientation()
+  pitch = -axis["roll"]
+  roll = axis["pitch"]
+  yaw = axis["yaw"]
 
   # test values
   # pitch = randint(0, 180)
   # roll = randint(0, 180)
   # yaw = randint(0, 180)
 
-  if pitch == 360:
-    pitch = 0
-  else:
-    pitch += 1
-
-  if yaw == 360:
-    yaw = 0
-  else:
-    yaw += 1
-
   print("pitch {0} roll {1} yaw {2}".format(pitch, roll, yaw))
 
   # encoding floating point values as an ascii string...
   sendData = (str(pitch) + "_" + str(roll) + "_" + str(yaw)).encode('ascii')
   sock.sendto(sendData, (UDP_IP, UDP_PORT))
-
-  #print(sendData)
 
   time.sleep(UPDATE_INTERVAL)
